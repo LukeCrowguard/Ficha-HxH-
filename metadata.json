@@ -1,0 +1,5 @@
+{
+  "name": "Hunter x Hunter RPG Sheet",
+  "description": "A modern, interactive character sheet for HxH RPG, featuring automatic calculations for HP, Nen, damage, and a dynamic Nen affinity chart.",
+  "requestFramePermissions": []
+}

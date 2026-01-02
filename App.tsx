@@ -3,7 +3,7 @@ import {
   Shield, Zap, Heart, Sword, Brain, Activity, Ghost, Feather, Dna, 
   Dice5, Trash2, Droplet, Edit3, Save, Plus, X, Camera, ScrollText, BookOpen, Upload, PawPrint,
   Moon, Sun, Flame, Minus, PlusCircle, Image as ImageIcon, Target, Star, Gift, FlaskConical, Box,
-  Users, UserPlus, Check, LayoutGrid
+  Users, UserPlus, Check
 } from 'lucide-react';
 import { INITIAL_CHARACTER, NEN_COLORS } from './constants';
 import { Character, LogEntry, Skill, NenType, Attributes, MiniCharacter, SkillCategory, InventoryItem } from './types';
@@ -47,8 +47,7 @@ const App: React.FC = () => {
 
   // Derived Active Character
   const char = characters.find(c => c.id === activeCharId) || characters[0];
-  const themeColor = NEN_COLORS[char.nenType] || '#9b59b6';
-
+  
   // UI State
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('hatsus');
@@ -82,6 +81,13 @@ const App: React.FC = () => {
   useEffect(() => {
     logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [logs]);
+
+  // Safety Check
+  if (!char) {
+    return <div className="min-h-screen bg-[#050506] text-white flex items-center justify-center font-title">Carregando Hunter Database...</div>;
+  }
+
+  const themeColor = NEN_COLORS[char.nenType] || '#9b59b6';
 
   // --- ACTIONS ---
 
@@ -516,7 +522,7 @@ const App: React.FC = () => {
       className="min-h-screen bg-[#050506] text-gray-200 font-body pb-24 overflow-x-hidden selection:text-black relative transition-colors duration-1000"
       style={{ 
         '--theme-color': themeColor,
-        '::selection': { backgroundColor: themeColor }
+        // Removed invalid ::selection object to prevent crash
       } as React.CSSProperties}
     >
       <style>{`

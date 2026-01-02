@@ -54,28 +54,7 @@ const NenHexagon: React.FC<NenHexagonProps> = ({ activeType }) => {
         return 0.1; 
       }
 
-      // Calculate distance on the ring (skipping Specialist index 3 for calculation logic is tricky)
-      // Simpler approach: Manual mapping since it's only 6 types
-      
-      const matrix: Record<string, Record<string, number>> = {
-         [NenType.Enhancer]: { [NenType.Enhancer]: 1.0, [NenType.Transmuter]: 0.8, [NenType.Emitter]: 0.8, [NenType.Conjurer]: 0.6, [NenType.Manipulator]: 0.6, [NenType.Specialist]: 0 },
-         [NenType.Transmuter]: { [NenType.Transmuter]: 1.0, [NenType.Enhancer]: 0.8, [NenType.Conjurer]: 0.8, [NenType.Emitter]: 0.6, [NenType.Specialist]: 0, [NenType.Manipulator]: 0.4 }, // Opposite Manip is 40%
-         [NenType.Emitter]: { [NenType.Emitter]: 1.0, [NenType.Enhancer]: 0.8, [NenType.Manipulator]: 0.8, [NenType.Transmuter]: 0.6, [NenType.Specialist]: 0, [NenType.Conjurer]: 0.4 },
-         [NenType.Conjurer]: { [NenType.Conjurer]: 1.0, [NenType.Transmuter]: 0.8, [NenType.Specialist]: 0, [NenType.Enhancer]: 0.6, [NenType.Manipulator]: 0.6, [NenType.Emitter]: 0.4 }, // Wait, Conjurer adjacent to Spec? In chart: Trans - Conj - Spec.
-         [NenType.Manipulator]: { [NenType.Manipulator]: 1.0, [NenType.Emitter]: 0.8, [NenType.Specialist]: 0, [NenType.Enhancer]: 0.6, [NenType.Conjurer]: 0.6, [NenType.Transmuter]: 0.4 },
-      };
-
-      // Fix specific Specialist Adjacency logic for Chart Drawing
-      // Standard Chart: Enh - Trans - Conj - Spec - Manip - Emit - Enh
-      // Reforço -> Transformação -> Materialização -> Especialização -> Manipulação -> Emissão
-      
-      // Let's rely on standard distance logic:
-      // Distance 0: 100%
-      // Distance 1: 80%
-      // Distance 2: 60%
-      // Distance 3: 40%
-      
-      // We must handle the "Specialist is at bottom" layout.
+      // Calculate distance on the ring
       let dist = Math.abs(index - i);
       if (dist > 3) dist = 6 - dist;
       
